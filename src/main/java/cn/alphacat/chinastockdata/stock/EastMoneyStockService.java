@@ -1,6 +1,6 @@
 package cn.alphacat.chinastockdata.stock;
 
-import cn.alphacat.chinastockdata.model.MarketMin;
+import cn.alphacat.chinastockdata.model.StockMin;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -26,9 +25,18 @@ public class EastMoneyStockService {
   private static final DateTimeFormatter TRADE_TIME_FORMATTER =
       DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-  public List<MarketMin> buildMarketMin(String stockCode) {
+  private static final int TRADE_TIME_INDEX = 0;
+  private static final int OPEN_PRICE_INDEX = 1;
+  private static final int CLOSE_PRICE_INDEX = 2;
+  private static final int HIGH_PRICE_INDEX = 3;
+  private static final int LOW_PRICE_INDEX = 4;
+  private static final int VOLUME_INDEX = 5;
+  private static final int AMOUNT_INDEX = 6;
+  private static final int AVERAGE_PRICE_INDEX = 7;
+
+  public ArrayList<StockMin> buildMarketMin(String stockCode) {
     if (stockCode == null || stockCode.isEmpty()) {
-      stockCode = "000001";
+      return null;
     }
 
     int seCid = stockCode.startsWith("6") ? 1 : 0;
@@ -55,11 +63,11 @@ public class EastMoneyStockService {
       BigDecimal preClose = BigDecimal.valueOf(data.get("preClose").asDouble());
       JsonNode trends = data.get("trends");
 
-      List<MarketMin> result = new ArrayList<>();
+      ArrayList<StockMin> result = new ArrayList<>();
       for (JsonNode trendNode : trends) {
         String[] trendData = trendNode.asText().split(",");
-        MarketMin marketMin = buildMarketMin(stockCode, trendData, preClose);
-        result.add(marketMin);
+        StockMin stockMin = buildMarketMin(stockCode, trendData, preClose);
+        result.add(stockMin);
       }
       return result;
     } catch (Exception e) {
@@ -67,17 +75,32 @@ public class EastMoneyStockService {
     }
   }
 
-  private static MarketMin buildMarketMin(
+  private static StockMin buildMarketMin(
       String stockCode, String[] trendData, BigDecimal preClose) {
-    MarketMin marketMin = new MarketMin();
-    marketMin.setStockCode(stockCode);
-    String tradeTime = trendData[0];
-    marketMin.setTradeTime(LocalDateTime.parse(tradeTime, TRADE_TIME_FORMATTER));
-    BigDecimal price = new BigDecimal(trendData[1]);
-    marketMin.setPrice(price);
+    StockMin stockMin = new StockMin();
+    stockMin.setStockCode(stockCode);
+    String tradeTime = trendData[TRADE_TIME_INDEX];
+    String open = trendData[OPEN_PRICE_INDEX];
+    String closeString = trendData[CLOSE_PRICE_INDEX];
+    String high = trendData[HIGH_PRICE_INDEX];
+    String low = trendData[LOW_PRICE_INDEX];
+    String volumeString = trendData[VOLUME_INDEX];
+    String amountString = trendData[AMOUNT_INDEX];
+    String averagePriceString = trendData[AVERAGE_PRICE_INDEX];
 
-    BigDecimal change = price.subtract(preClose);
-    marketMin.setChange(change);
+    stockMin.setTradeTime(LocalDateTime.parse(tradeTime, TRADE_TIME_FORMATTER));
+
+    stockMin.setAveragePrice(new BigDecimal(averagePriceString));
+    stockMin.setOpenPrice(new BigDecimal(open));
+    stockMin.setHighPrice(new BigDecimal(high));
+    stockMin.setLowPrice(new BigDecimal(low));
+    stockMin.setAmount(new BigDecimal(amountString));
+
+    BigDecimal close = new BigDecimal(closeString);
+    stockMin.setClosePrice(close);
+
+    BigDecimal change = close.subtract(preClose);
+    stockMin.setChange(change);
 
     BigDecimal changePct =
         change
@@ -85,14 +108,12 @@ public class EastMoneyStockService {
             .multiply(BigDecimal.valueOf(100))
             .divide(BigDecimal.valueOf(100), 6, RoundingMode.HALF_UP)
             .multiply(BigDecimal.valueOf(100));
-    marketMin.setChangePercent(changePct);
-    marketMin.setAveragePrice(price);
-    BigDecimal volume = new BigDecimal(trendData[5]).multiply(BigDecimal.valueOf(100));
-    marketMin.setVolume(volume);
+    stockMin.setChangePercent(changePct);
 
-    BigDecimal amount = new BigDecimal(trendData[6]);
-    marketMin.setAmount(amount);
-    return marketMin;
+    BigDecimal volume = new BigDecimal(volumeString).multiply(BigDecimal.valueOf(100));
+    stockMin.setVolume(volume);
+
+    return stockMin;
   }
 
   private String sendGetRequest(String urlStr, Map<String, String> params) {

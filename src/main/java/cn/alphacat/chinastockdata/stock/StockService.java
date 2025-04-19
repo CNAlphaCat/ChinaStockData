@@ -1,9 +1,10 @@
 package cn.alphacat.chinastockdata.stock;
 
-import cn.alphacat.chinastockdata.model.MarketMin;
+import cn.alphacat.chinastockdata.model.StockMin;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,13 +16,13 @@ public class StockService {
   }
 
   /** 获取单个股票的今日分时行情 */
-  public List<MarketMin> getMarketMin(String stockCode) {
+  public ArrayList<StockMin> getMarketMin(String stockCode) {
     if (isBeforeStockOpenTime()) {
-      return null;
+      return new ArrayList<>();
     }
-    List<MarketMin> marketMin = eastMoneyStockService.buildMarketMin(stockCode);
-    if (marketMin != null && !marketMin.isEmpty()) {
-      return marketMin;
+    ArrayList<StockMin> stockMin = eastMoneyStockService.buildMarketMin(stockCode);
+    if (stockMin != null && !stockMin.isEmpty()) {
+      return stockMin;
     }
     return null;
   }

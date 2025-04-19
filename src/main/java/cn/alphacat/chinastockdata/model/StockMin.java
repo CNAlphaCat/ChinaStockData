@@ -6,10 +6,13 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-public class MarketMin {
+public class StockMin {
   private String stockCode;
   private LocalDateTime tradeTime;
-  private BigDecimal price;
+  private BigDecimal openPrice;
+  private BigDecimal closePrice;
+  private BigDecimal highPrice;
+  private BigDecimal lowPrice;
   private BigDecimal change;
   private BigDecimal changePercent;
   private BigDecimal volume;
