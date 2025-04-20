@@ -34,7 +34,7 @@ public class EastMoneyStockService {
   private static final int AMOUNT_INDEX = 6;
   private static final int AVERAGE_PRICE_INDEX = 7;
 
-  public ArrayList<StockMin> buildMarketMin(String stockCode) {
+  public ArrayList<StockMin> getStockMin(String stockCode) {
     if (stockCode == null || stockCode.isEmpty()) {
       return null;
     }
@@ -66,7 +66,7 @@ public class EastMoneyStockService {
       ArrayList<StockMin> result = new ArrayList<>();
       for (JsonNode trendNode : trends) {
         String[] trendData = trendNode.asText().split(",");
-        StockMin stockMin = buildMarketMin(stockCode, trendData, preClose);
+        StockMin stockMin = getStockMin(stockCode, trendData, preClose);
         result.add(stockMin);
       }
       return result;
@@ -75,7 +75,7 @@ public class EastMoneyStockService {
     }
   }
 
-  private static StockMin buildMarketMin(
+  private static StockMin getStockMin(
       String stockCode, String[] trendData, BigDecimal preClose) {
     StockMin stockMin = new StockMin();
     stockMin.setStockCode(stockCode);

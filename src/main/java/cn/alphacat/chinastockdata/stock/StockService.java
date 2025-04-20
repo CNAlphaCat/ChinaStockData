@@ -5,26 +5,32 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class StockService {
   private final EastMoneyStockService eastMoneyStockService;
+  private final BaiduStockService baiduStockService;
 
-  public StockService(final EastMoneyStockService eastMoneyStockService) {
+  public StockService(
+      final EastMoneyStockService eastMoneyStockService,
+      final BaiduStockService baiduStockService) {
     this.eastMoneyStockService = eastMoneyStockService;
+    this.baiduStockService = baiduStockService;
   }
 
   /** 获取单个股票的今日分时行情 */
   public ArrayList<StockMin> getMarketMin(String stockCode) {
+    if (stockCode == null || stockCode.isEmpty()) {
+      return null;
+    }
     if (isBeforeStockOpenTime()) {
       return new ArrayList<>();
     }
-    ArrayList<StockMin> stockMin = eastMoneyStockService.buildMarketMin(stockCode);
+    ArrayList<StockMin> stockMin = eastMoneyStockService.getStockMin(stockCode);
     if (stockMin != null && !stockMin.isEmpty()) {
       return stockMin;
     }
-    return null;
+    return baiduStockService.getStockMin(stockCode);
   }
 
   private Boolean isBeforeStockOpenTime() {
