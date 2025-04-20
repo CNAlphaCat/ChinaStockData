@@ -14,7 +14,6 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,50 +23,15 @@ public class BaiduStockService {
   private static final String BAIDU_MARKET_MIN_URL =
       "https://finance.pae.baidu.com/selfselect/getstockquotation";
 
-  private static final DateTimeFormatter TRADE_TIME_FORMATTER =
-      DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-  private static final String[] _MARKET_MIN_COLUMNS = {
-    "stock_code", "trade_time", "price", "change", "change_pct", "volume", "avg_price", "amount"
-  };
-
-  private static final Map<String, String> JSON_HEADERS = new HashMap<>();
-
-  static {
-    JSON_HEADERS.put("Host", "finance.pae.baidu.com");
-    JSON_HEADERS.put(
-        "User-Agent",
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0");
-    JSON_HEADERS.put("Accept", "application/vnd.finance-web.v1+json");
-    JSON_HEADERS.put(
-        "Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2");
-    JSON_HEADERS.put("Accept-Encoding", "gzip, deflate, br");
-    JSON_HEADERS.put("Content-Type", "application/json");
-    JSON_HEADERS.put("Origin", "https://gushitong.baidu.com");
-    JSON_HEADERS.put("Connection", "keep-alive");
-    JSON_HEADERS.put("Referer", "https://gushitong.baidu.com/");
-    // JSON_HEADERS.put("Cookie", cookie); // 请根据实际情况添加cookie
-  }
+  private final Map<String, String> BAIDU_STOCK_MIN_HEADER_MAP = getStockMinHeaderMap();
 
   public ArrayList<StockMin> getStockMin(String stockCode) {
     if (stockCode == null || stockCode.isEmpty()) {
       return null;
     }
 
-    Map<String, String> params = new HashMap<>();
-    params.put("all", "1");
-    params.put("isIndex", "false");
-    params.put("isBk", "false");
-    params.put("isBlock", "false");
-    params.put("isFutures", "false");
-    params.put("isStock", "true");
-    params.put("newFormat", "1");
-    params.put("group", "quotation_minute_ab");
-    params.put("finClientType", "pc");
-    params.put("code", stockCode);
-
+    Map<String, String> params = getParams(stockCode);
     String response = sendGetRequest(BAIDU_MARKET_MIN_URL, params);
-
     ObjectMapper objectMapper = new ObjectMapper();
     try {
       JsonNode jsonResponse = objectMapper.readTree(response);
@@ -136,11 +100,9 @@ public class BaiduStockService {
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
       conn.setRequestMethod("GET");
 
-      // 设置请求头
-      for (Map.Entry<String, String> entry : JSON_HEADERS.entrySet()) {
+      for (Map.Entry<String, String> entry : BAIDU_STOCK_MIN_HEADER_MAP.entrySet()) {
         conn.setRequestProperty(entry.getKey(), entry.getValue());
       }
-
       BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
       String inputLine;
       while ((inputLine = in.readLine()) != null) {
@@ -167,5 +129,36 @@ public class BaiduStockService {
       result.append(entry.getValue());
     }
     return result.toString();
+  }
+
+  private Map<String, String> getStockMinHeaderMap() {
+    Map<String, String> headerMap = new HashMap<>();
+    headerMap.put("Host", "finance.pae.baidu.com");
+    headerMap.put(
+            "User-Agent",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0");
+    headerMap.put("Accept", "application/vnd.finance-web.v1+json");
+    headerMap.put("Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2");
+    headerMap.put("Accept-Encoding", "gzip, deflate, br");
+    headerMap.put("Content-Type", "application/json");
+    headerMap.put("Origin", "https://gushitong.baidu.com");
+    headerMap.put("Connection", "keep-alive");
+    headerMap.put("Referer", "https://gushitong.baidu.com/");
+    return headerMap;
+  }
+
+  private static Map<String, String> getParams(String stockCode) {
+    Map<String, String> params = new HashMap<>();
+    params.put("all", "1");
+    params.put("isIndex", "false");
+    params.put("isBk", "false");
+    params.put("isBlock", "false");
+    params.put("isFutures", "false");
+    params.put("isStock", "true");
+    params.put("newFormat", "1");
+    params.put("group", "quotation_minute_ab");
+    params.put("finClientType", "pc");
+    params.put("code", stockCode);
+    return params;
   }
 }
