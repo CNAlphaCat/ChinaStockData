@@ -4,6 +4,7 @@ import cn.alphacat.chinastockdata.model.StockMin;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 @Service
@@ -34,7 +35,7 @@ public class StockService {
   }
 
   private Boolean isBeforeStockOpenTime() {
-    LocalTime now = LocalTime.now();
+    LocalTime now = LocalTime.now(ZoneId.of("Asia/Shanghai"));;
     LocalTime openTime = LocalTime.of(9, 15);
     return now.isBefore(openTime);
   }
