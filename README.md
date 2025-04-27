@@ -49,3 +49,15 @@ getMarketIndex
  public List<FeatureMarketOverview> getFuturesBaseInfo()
 ```
 
+### 2.获取期货的日K线数据
+
+#### 调用方法
+
+```Java
+ public List<FutureHistory> getFutureHistory(
+        String code,
+        LocalDate beg,
+        LocalDate end,
+        EastMoneyQTKlineTypeEnum klt,
+        EastMoneyQTKlineWeightingEnum fqt)
+```

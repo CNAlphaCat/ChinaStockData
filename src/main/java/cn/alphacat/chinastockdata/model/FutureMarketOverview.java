@@ -1,7 +1,7 @@
 package cn.alphacat.chinastockdata.model;
 
 import cn.alphacat.chinastockdata.enums.EastMoneyQuoteFieldEnum;
-import cn.alphacat.chinastockdata.enums.FeatureMarketCodeEnum;
+import cn.alphacat.chinastockdata.enums.FutureMarketCodeEnum;
 import cn.alphacat.chinastockdata.util.JsonUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
-public class FeatureMarketOverview {
+public class FutureMarketOverview {
   private String featureCode;
   private String featureName;
   private BigDecimal changePercent;
@@ -33,7 +33,7 @@ public class FeatureMarketOverview {
   private LocalDateTime updateTime;
   private LocalDate latestTradeDate;
 
-  public FeatureMarketOverview(JsonNode diffNode) {
+  public FutureMarketOverview(JsonNode diffNode) {
     this.featureCode = JsonUtil.safeGetText(diffNode, EastMoneyQuoteFieldEnum.CODE.getKey());
     this.featureName = JsonUtil.safeGetText(diffNode, EastMoneyQuoteFieldEnum.NAME.getKey());
     this.changePercent =
@@ -60,7 +60,7 @@ public class FeatureMarketOverview {
     this.currentMarketValue =
         JsonUtil.safeGetText(diffNode, EastMoneyQuoteFieldEnum.CIRCULATING_MARKET_CAP.getKey());
     this.marketCode = JsonUtil.safeGetText(diffNode, EastMoneyQuoteFieldEnum.MARKET_CODE.getKey());
-    this.marketName = FeatureMarketCodeEnum.getDescriptionByCode(this.marketCode);
+    this.marketName = FutureMarketCodeEnum.getDescriptionByCode(this.marketCode);
     this.updateTime =
         JsonUtil.safeGetLocalDateTime(diffNode, EastMoneyQuoteFieldEnum.UPDATE_TIMESTAMP.getKey());
     this.latestTradeDate =

@@ -3,7 +3,7 @@ package cn.alphacat.chinastockdata.enums;
 import lombok.Getter;
 
 @Getter
-public enum FeatureMarketCodeEnum {
+public enum FutureMarketCodeEnum {
   SZ_A("0", "深A"),
   SH_A("1", "沪A"),
   SH_FUTURES("113", "上期所"),
@@ -15,13 +15,13 @@ public enum FeatureMarketCodeEnum {
   private final String code;
   private final String description;
 
-  FeatureMarketCodeEnum(String code, String description) {
+  FutureMarketCodeEnum(String code, String description) {
     this.code = code;
     this.description = description;
   }
 
-  public static FeatureMarketCodeEnum fromCode(String code) {
-    for (FeatureMarketCodeEnum marketCodeEnum : FeatureMarketCodeEnum.values()) {
+  public static FutureMarketCodeEnum fromCode(String code) {
+    for (FutureMarketCodeEnum marketCodeEnum : FutureMarketCodeEnum.values()) {
       if (marketCodeEnum.getCode().equals(code)) {
         return marketCodeEnum;
       }
@@ -30,10 +30,10 @@ public enum FeatureMarketCodeEnum {
   }
 
   public static String getDescriptionByCode(String code) {
-    FeatureMarketCodeEnum featureMarketCodeEnum = fromCode(code);
-    if (featureMarketCodeEnum == null) {
+    FutureMarketCodeEnum futureMarketCodeEnum = fromCode(code);
+    if (futureMarketCodeEnum == null) {
       return null;
     }
-    return featureMarketCodeEnum.getDescription();
+    return futureMarketCodeEnum.getDescription();
   }
 }

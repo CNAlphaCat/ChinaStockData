@@ -13,7 +13,10 @@ import java.time.format.DateTimeParseException;
 
 public class JsonUtil {
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-  private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
+  private static final DateTimeFormatter DATE_FORMATTER_yyyyMMdd =
+      DateTimeFormatter.ofPattern("yyyyMMdd");
+  private static final DateTimeFormatter DATE_FORMATTER_yyyy_MM_dd =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
   public static JsonNode parse(String json) throws Exception {
     return OBJECT_MAPPER.readTree(json);
@@ -45,8 +48,12 @@ public class JsonUtil {
     return null;
   }
 
+  public static LocalDate safeGetLocalDateOfPatternyyyy_MM_dd(JsonNode node, String fieldName) {
+    return safeGetLocalDate(node, fieldName, DATE_FORMATTER_yyyy_MM_dd);
+  }
+
   public static LocalDate safeGetLocalDateOfPatternyyyyMMdd(JsonNode node, String fieldName) {
-    return safeGetLocalDate(node, fieldName, DATE_FORMATTER);
+    return safeGetLocalDate(node, fieldName, DATE_FORMATTER_yyyyMMdd);
   }
 
   public static LocalDate safeGetLocalDate(
