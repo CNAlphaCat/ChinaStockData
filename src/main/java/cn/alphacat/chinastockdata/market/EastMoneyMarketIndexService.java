@@ -1,6 +1,6 @@
 package cn.alphacat.chinastockdata.market;
 
-import cn.alphacat.chinastockdata.enums.KLineType;
+import cn.alphacat.chinastockdata.enums.KLineTypeEnum;
 import cn.alphacat.chinastockdata.model.MarketIndex;
 import cn.alphacat.chinastockdata.model.MarketIndexData;
 import cn.alphacat.chinastockdata.model.MarketIndexResponse;
@@ -46,7 +46,7 @@ public class EastMoneyMarketIndexService {
           + "&klt=10%d&fqt=1&beg=%s&end=20500101&smplmt=100000"
           + "&lmt=1000000&_=%d";
 
-  public List<MarketIndex> getMarketIndex(String indexCode, LocalDate startDate, KLineType kType) {
+  public List<MarketIndex> getMarketIndex(String indexCode, LocalDate startDate, KLineTypeEnum kType) {
     String formattedStartDate = startDate.format(DATE_FORMATTER);
     try {
       MarketIndexResponse marketIndexResponse =
@@ -98,7 +98,7 @@ public class EastMoneyMarketIndexService {
   }
 
   private static MarketIndexResponse getMarketIndex(
-      String indexCode, KLineType kType, String formattedStartDate)
+          String indexCode, KLineTypeEnum kType, String formattedStartDate)
       throws URISyntaxException, IOException {
     int secId = getSecId(indexCode);
     String urlString =

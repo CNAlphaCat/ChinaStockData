@@ -5,11 +5,47 @@
 ### 1.获取单个股票的今日分时行情 
 getStockMin
 
-数据源：东方财富或百度
+
+#### 说明介绍
+获取单个股票最新交易日的分时行情
+
+盘中请求就是当天的实时分时行情
+
+分钟级别：每分钟一条数据
+
+#### 调用方法
+
+```Java
+ public ArrayList<StockMin> getStockMin(String stockCode)
+```
+
 
 ## MarketService
 
 ### 1.获取指数的行情信息-日、周、月 k线
 getMarketIndex
 
-数据源：东方财富
+#### 说明介绍
+
+获取单个指数的K线行情
+
+日，周，月K
+
+
+
+#### 调用方法
+
+```Java
+  public List<MarketIndex> getMarketIndex(String indexCode, LocalDate startDate, KLineType kType)
+```
+
+## FeatureService
+
+### 1.获取所有期货的基本信息
+
+#### 调用方法
+
+```Java
+ public List<FeatureMarketOverview> getFuturesBaseInfo()
+```
+

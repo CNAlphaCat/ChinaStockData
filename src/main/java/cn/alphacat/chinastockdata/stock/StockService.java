@@ -20,7 +20,7 @@ public class StockService {
   }
 
   /** 获取单个股票的今日分时行情 */
-  public ArrayList<StockMin> getMarketMin(String stockCode) {
+  public ArrayList<StockMin> getStockMin(String stockCode) {
     if (stockCode == null || stockCode.isEmpty()) {
       return null;
     }

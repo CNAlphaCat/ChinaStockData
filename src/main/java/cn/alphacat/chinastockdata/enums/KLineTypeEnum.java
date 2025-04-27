@@ -1,13 +1,13 @@
 package cn.alphacat.chinastockdata.enums;
 
-public enum KLineType {
+public enum KLineTypeEnum {
   DAILY(1),
   WEEKLY(2),
   MONTHLY(3);
 
   private final int value;
 
-  KLineType(int value) {
+  KLineTypeEnum(int value) {
     this.value = value;
   }
 

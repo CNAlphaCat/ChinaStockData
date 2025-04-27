@@ -1,6 +1,6 @@
 package cn.alphacat.chinastockdata.market;
 
-import cn.alphacat.chinastockdata.enums.KLineType;
+import cn.alphacat.chinastockdata.enums.KLineTypeEnum;
 import cn.alphacat.chinastockdata.model.MarketIndex;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class MarketService {
     this.eastMoneyMarketIndexService = eastMoneyMarketIndexService;
   }
 
-  public List<MarketIndex> getMarketIndex(String indexCode, LocalDate startDate, KLineType kType) {
+  public List<MarketIndex> getMarketIndex(String indexCode, LocalDate startDate, KLineTypeEnum kType) {
     return eastMoneyMarketIndexService.getMarketIndex(indexCode, startDate, kType);
   }
 }
