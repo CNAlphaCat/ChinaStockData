@@ -5,6 +5,7 @@ import cn.alphacat.chinastockdata.enums.EastMoneyQTKlineWeightingEnum;
 import cn.alphacat.chinastockdata.enums.FutureHistoryEnum;
 import cn.alphacat.chinastockdata.model.FutureHistory;
 import cn.alphacat.chinastockdata.util.JsonUtil;
+import cn.alphacat.chinastockdata.util.LocalDateTimeUtil;
 import cn.alphacat.chinastockdata.util.LocalDateUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,8 @@ public class FutureHistoryHandler {
   private static final String FIELDS1 = "f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13";
   private static final String RTNTYPE = "6";
 
-  private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
+  private static final DateTimeFormatter DATE_TIME_FORMATTER =
+      DateTimeFormatter.ofPattern("yyyyMMdd");
 
   public List<FutureHistory> getFutureHistory(
       String code,
@@ -38,7 +40,6 @@ public class FutureHistoryHandler {
         Arrays.stream(FutureHistoryEnum.values())
             .map(FutureHistoryEnum::getKey)
             .collect(Collectors.joining(","));
-
 
     String begStr = beg.format(DATE_TIME_FORMATTER);
     String endStr = end.format(DATE_TIME_FORMATTER);
@@ -110,7 +111,8 @@ public class FutureHistoryHandler {
   private static FutureHistory getFutureHistory(JsonNode klineNode) {
     String[] klineData = klineNode.asText().split(",");
     FutureHistory futureHistory = new FutureHistory();
-    futureHistory.setDate(LocalDateUtil.parseDateOfPatternyyyy_MM_dd(klineData[0]));
+    futureHistory.setDate(LocalDateUtil.autoParseDate(klineData[0]));
+    futureHistory.setDateTime(LocalDateTimeUtil.autoParseDateTime(klineData[0]));
     futureHistory.setOpen(new BigDecimal(klineData[1]));
     futureHistory.setClose(new BigDecimal(klineData[2]));
     futureHistory.setHigh(new BigDecimal(klineData[3]));

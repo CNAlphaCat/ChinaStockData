@@ -18,8 +18,12 @@ public class JsonUtil {
   private static final DateTimeFormatter DATE_FORMATTER_yyyy_MM_dd =
       DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-  public static JsonNode parse(String json) throws Exception {
-    return OBJECT_MAPPER.readTree(json);
+  public static JsonNode parse(String json) {
+    try {
+      return OBJECT_MAPPER.readTree(json);
+    } catch (Exception e) {
+      return null;
+    }
   }
 
   public static String safeGetText(JsonNode node, String fieldName) {

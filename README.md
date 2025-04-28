@@ -39,17 +39,17 @@ getMarketIndex
   public List<MarketIndex> getMarketIndex(String indexCode, LocalDate startDate, KLineType kType)
 ```
 
-## FeatureService
+## FutureService
 
 ### 1.获取所有期货的基本信息
 
 #### 调用方法
 
 ```Java
- public List<FeatureMarketOverview> getFuturesBaseInfo()
+ public List<FutureMarketOverview> getFuturesBaseInfo()
 ```
 
-### 2.获取期货的日K线数据
+### 2.获取期货的K线数据
 
 #### 调用方法
 
@@ -60,4 +60,12 @@ getMarketIndex
         LocalDate end,
         EastMoneyQTKlineTypeEnum klt,
         EastMoneyQTKlineWeightingEnum fqt)
+```
+
+### 3.调用秒级期货的K线数据
+
+#### 调用方法
+
+```Java
+public List<FutureDetail> getFutureDetails(String secId, int maxCount)
 ```

@@ -4,10 +4,12 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class FutureHistory {
   private LocalDate date;
+  private LocalDateTime dateTime;
   private BigDecimal open;
   private BigDecimal close;
   private BigDecimal high;
