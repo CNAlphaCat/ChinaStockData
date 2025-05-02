@@ -1,6 +1,8 @@
 package cn.alphacat.chinastockdata.util;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class LocalDateUtil {
@@ -49,5 +51,11 @@ public class LocalDateUtil {
     } catch (Exception e) {
       return null;
     }
+  }
+
+  public static LocalDate parseTimestamp(long timestamp) {
+    Instant instant = Instant.ofEpochMilli(timestamp);
+    LocalDate date = instant.atZone(ZoneId.of("UTC")).toLocalDate();
+    return date;
   }
 }

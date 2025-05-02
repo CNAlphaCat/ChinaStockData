@@ -72,4 +72,16 @@ public class JsonUtil {
     }
     return null;
   }
+
+  public static Long safeGetLong(JsonNode node, String fieldName) {
+    String value = safeGetText(node, fieldName);
+    if (value == null) {
+      return null;
+    }
+    try {
+      return Long.parseLong(value);
+    } catch (NumberFormatException e) {
+      return null;
+    }
+  }
 }
