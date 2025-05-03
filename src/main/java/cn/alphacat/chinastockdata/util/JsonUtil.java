@@ -52,6 +52,11 @@ public class JsonUtil {
     return null;
   }
 
+  public static LocalDate safeGetLocalDate(JsonNode node, String fieldName) {
+    String value = safeGetText(node, fieldName);
+    return LocalDateUtil.autoParseDate(value);
+  }
+
   public static LocalDate safeGetLocalDateOfPatternyyyy_MM_dd(JsonNode node, String fieldName) {
     return safeGetLocalDate(node, fieldName, DATE_FORMATTER_yyyy_MM_dd);
   }
