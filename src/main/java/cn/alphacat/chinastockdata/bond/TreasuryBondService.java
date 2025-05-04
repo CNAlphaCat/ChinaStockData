@@ -2,6 +2,7 @@ package cn.alphacat.chinastockdata.bond;
 
 import cn.alphacat.chinastockdata.model.bond.TreasuryBond;
 import cn.alphacat.chinastockdata.util.JsonUtil;
+import cn.alphacat.chinastockdata.util.RequestUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class TreasuryBondService {
-  private static final HttpClient httpClient =
+  private static final HttpClient HTTP_CLIENT =
       HttpClient.newBuilder()
           .version(HttpClient.Version.HTTP_2)
           .cookieHandler(new java.net.CookieManager())
@@ -39,15 +40,16 @@ public class TreasuryBondService {
 
     LocalDate startDateInResult = localDateTenYearTreasuryBondMap.keySet().iterator().next();
     if (startDateInResult.isBefore(startDate)) {
-      LinkedHashMap<LocalDate, TreasuryBond> filteredResult = result.entrySet().stream()
+      LinkedHashMap<LocalDate, TreasuryBond> filteredResult =
+          result.entrySet().stream()
               .filter(entry -> !entry.getKey().isBefore(startDate))
               .sorted(Map.Entry.<LocalDate, TreasuryBond>comparingByKey().reversed())
-              .collect(Collectors.toMap(
+              .collect(
+                  Collectors.toMap(
                       Map.Entry::getKey,
                       Map.Entry::getValue,
                       (oldValue, newValue) -> oldValue,
-                      LinkedHashMap::new
-              ));
+                      LinkedHashMap::new));
       return filteredResult;
     }
 
@@ -70,15 +72,16 @@ public class TreasuryBondService {
         break;
       }
     }
-    LinkedHashMap<LocalDate, TreasuryBond> filteredResult = result.entrySet().stream()
+    LinkedHashMap<LocalDate, TreasuryBond> filteredResult =
+        result.entrySet().stream()
             .filter(entry -> !entry.getKey().isBefore(startDate))
             .sorted(Map.Entry.<LocalDate, TreasuryBond>comparingByKey().reversed())
-            .collect(Collectors.toMap(
+            .collect(
+                Collectors.toMap(
                     Map.Entry::getKey,
                     Map.Entry::getValue,
                     (oldValue, newValue) -> oldValue,
-                    LinkedHashMap::new
-            ));
+                    LinkedHashMap::new));
     return filteredResult;
   }
 
@@ -156,7 +159,7 @@ public class TreasuryBondService {
     HttpResponse<String> response;
 
     try {
-      response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+      response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
     } catch (Exception e) {
       return null;
     }
@@ -174,17 +177,7 @@ public class TreasuryBondService {
 
   private static String buildRequestUrl(int page) {
     Map<String, String> requestMap = getTreasuryBondRequestMap(page);
-    StringBuilder sb = new StringBuilder();
-    sb.append(EAST_MONEY_URL);
-    sb.append("?");
-    for (Map.Entry<String, String> entry : requestMap.entrySet()) {
-      sb.append(entry.getKey());
-      sb.append("=");
-      sb.append(entry.getValue());
-      sb.append("&");
-    }
-    sb.deleteCharAt(sb.length() - 1);
-    return sb.toString();
+    return RequestUtil.buildUrlByParametersMap(EAST_MONEY_URL, requestMap);
   }
 
   private static Map<String, String> getTreasuryBondRequestMap(int page) {

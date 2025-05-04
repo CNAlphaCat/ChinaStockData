@@ -1,7 +1,7 @@
 package cn.alphacat.chinastockdata.market;
 
 import cn.alphacat.chinastockdata.enums.LuguLuguIndexPEEnums;
-import cn.alphacat.chinastockdata.model.IndexPE;
+import cn.alphacat.chinastockdata.model.marketindex.IndexPE;
 import cn.alphacat.chinastockdata.model.legulegu.LeguLeguIndexPECsrfResponse;
 import cn.alphacat.chinastockdata.util.JsonUtil;
 import cn.alphacat.chinastockdata.util.LocalDateUtil;
@@ -38,7 +38,7 @@ public class LeguLeguService {
 
   private static final String API_URL = "https://legulegu.com/api/stockdata/index-basic-pe";
 
-  private static final HttpClient httpClient =
+  private static final HttpClient HTTP_CLIENT =
       HttpClient.newBuilder()
           .version(HttpClient.Version.HTTP_1_1)
           .cookieHandler(new java.net.CookieManager())
@@ -58,7 +58,7 @@ public class LeguLeguService {
 
     String fullUrl = String.format("%s?token=%s&indexCode=%s", API_URL, token, index.getIndeCode());
 
-    LeguLeguIndexPECsrfResponse leguLeguIndexPECsrfResponse = null;
+    LeguLeguIndexPECsrfResponse leguLeguIndexPECsrfResponse;
     try {
       leguLeguIndexPECsrfResponse = fetchCsrfToken();
     } catch (Exception e) {
@@ -85,7 +85,7 @@ public class LeguLeguService {
 
     HttpResponse<String> response;
     try {
-      response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+      response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
     } catch (Exception e) {
       return null;
     }
@@ -146,7 +146,7 @@ public class LeguLeguService {
             .header("User-Agent", USER_AGENT)
             .build();
 
-    HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+    HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
     Document doc = Jsoup.parse(response.body());
     Element csrfTag = doc.select("meta[name=_csrf]").first();

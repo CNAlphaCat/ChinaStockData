@@ -1,6 +1,6 @@
 package cn.alphacat.chinastockdata.future;
 
-import cn.alphacat.chinastockdata.model.FutureDetail;
+import cn.alphacat.chinastockdata.model.future.FutureDetail;
 import cn.alphacat.chinastockdata.util.JsonUtil;
 import cn.alphacat.chinastockdata.util.LocalDateTimeUtil;
 import com.fasterxml.jackson.databind.JsonNode;

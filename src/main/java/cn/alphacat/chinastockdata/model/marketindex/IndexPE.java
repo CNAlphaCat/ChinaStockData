@@ -1,4 +1,4 @@
-package cn.alphacat.chinastockdata.model;
+package cn.alphacat.chinastockdata.model.marketindex;
 
 import lombok.Builder;
 import lombok.Data;

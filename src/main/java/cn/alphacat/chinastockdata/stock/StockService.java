@@ -1,6 +1,6 @@
 package cn.alphacat.chinastockdata.stock;
 
-import cn.alphacat.chinastockdata.model.StockMin;
+import cn.alphacat.chinastockdata.model.stock.StockMin;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;

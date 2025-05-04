@@ -1,7 +1,7 @@
 package cn.alphacat.chinastockdata.future;
 
 import cn.alphacat.chinastockdata.enums.EastMoneyQuoteFieldEnum;
-import cn.alphacat.chinastockdata.model.FutureMarketOverview;
+import cn.alphacat.chinastockdata.model.future.FutureMarketOverview;
 import cn.alphacat.chinastockdata.util.JsonUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Component;

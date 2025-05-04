@@ -1,8 +1,8 @@
 package cn.alphacat.chinastockdata.market;
 
 import cn.alphacat.chinastockdata.enums.KLineTypeEnum;
-import cn.alphacat.chinastockdata.model.MarketIndex;
-import cn.alphacat.chinastockdata.model.MarketIndexData;
+import cn.alphacat.chinastockdata.model.marketindex.MarketIndex;
+import cn.alphacat.chinastockdata.model.marketindex.MarketIndexData;
 import cn.alphacat.chinastockdata.model.MarketIndexResponse;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,4 +1,4 @@
-package cn.alphacat.chinastockdata.model;
+package cn.alphacat.chinastockdata.model.future;
 
 import lombok.Data;
 

@@ -3,7 +3,7 @@ package cn.alphacat.chinastockdata.future;
 import cn.alphacat.chinastockdata.enums.EastMoneyQTKlineTypeEnum;
 import cn.alphacat.chinastockdata.enums.EastMoneyQTKlineWeightingEnum;
 import cn.alphacat.chinastockdata.enums.FutureHistoryEnum;
-import cn.alphacat.chinastockdata.model.FutureHistory;
+import cn.alphacat.chinastockdata.model.future.FutureHistory;
 import cn.alphacat.chinastockdata.util.JsonUtil;
 import cn.alphacat.chinastockdata.util.LocalDateTimeUtil;
 import cn.alphacat.chinastockdata.util.LocalDateUtil;

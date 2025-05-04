@@ -1,7 +1,7 @@
 package cn.alphacat.chinastockdata.market;
 
 import cn.alphacat.chinastockdata.enums.KLineTypeEnum;
-import cn.alphacat.chinastockdata.model.MarketIndex;
+import cn.alphacat.chinastockdata.model.marketindex.MarketIndex;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

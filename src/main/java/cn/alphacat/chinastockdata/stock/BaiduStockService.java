@@ -1,6 +1,6 @@
 package cn.alphacat.chinastockdata.stock;
 
-import cn.alphacat.chinastockdata.model.StockMin;
+import cn.alphacat.chinastockdata.model.stock.StockMin;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;

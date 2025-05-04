@@ -2,9 +2,9 @@ package cn.alphacat.chinastockdata.future;
 
 import cn.alphacat.chinastockdata.enums.EastMoneyQTKlineTypeEnum;
 import cn.alphacat.chinastockdata.enums.EastMoneyQTKlineWeightingEnum;
-import cn.alphacat.chinastockdata.model.FutureDetail;
-import cn.alphacat.chinastockdata.model.FutureHistory;
-import cn.alphacat.chinastockdata.model.FutureMarketOverview;
+import cn.alphacat.chinastockdata.model.future.FutureDetail;
+import cn.alphacat.chinastockdata.model.future.FutureHistory;
+import cn.alphacat.chinastockdata.model.future.FutureMarketOverview;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

@@ -89,4 +89,13 @@ public class JsonUtil {
       return null;
     }
   }
+
+  public static Integer safeGetInteger(JsonNode node, String fieldName) {
+    try {
+      JsonNode jsonNode = node.get(fieldName);
+      return jsonNode.asInt();
+    } catch (Exception e) {
+      return null;
+    }
+  }
 }
