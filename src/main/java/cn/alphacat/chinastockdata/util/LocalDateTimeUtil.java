@@ -3,6 +3,7 @@ package cn.alphacat.chinastockdata.util;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -23,7 +24,7 @@ public class LocalDateTimeUtil {
   public static LocalDateTime parseTodayTimeOfPatternHH_mm_ss(String time) {
     try {
       LocalTime localTime = LocalTime.parse(time, DATE_TIME_FORMATTER_HH_mm_ss);
-      LocalDate currentDate = LocalDate.now();
+      LocalDate currentDate = LocalDateUtil.getNow();
       return LocalDateTime.of(currentDate, localTime);
     } catch (DateTimeParseException e) {
       throw new IllegalArgumentException("Invalid time format: " + time, e);

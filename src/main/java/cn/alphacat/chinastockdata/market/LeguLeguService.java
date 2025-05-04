@@ -53,7 +53,7 @@ public class LeguLeguService {
     try {
       token = getToken();
     } catch (Exception e) {
-      return null;
+      throw new RuntimeException(e);
     }
 
     String fullUrl = String.format("%s?token=%s&indexCode=%s", API_URL, token, index.getIndeCode());
@@ -62,7 +62,7 @@ public class LeguLeguService {
     try {
       leguLeguIndexPECsrfResponse = fetchCsrfToken();
     } catch (Exception e) {
-      return null;
+      throw new RuntimeException(e);
     }
     Map<String, List<String>> headers = leguLeguIndexPECsrfResponse.getCookies();
     List<String> setCookies = headers.getOrDefault("Set-Cookie", Collections.emptyList());
@@ -87,16 +87,16 @@ public class LeguLeguService {
     try {
       response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
     } catch (Exception e) {
-      return null;
+      throw new RuntimeException(e);
     }
 
     if (response.statusCode() != HttpURLConnection.HTTP_OK) {
-      return null;
+      throw new RuntimeException("Not OK");
     }
     String body = response.body();
     JsonNode responseJsonNode = JsonUtil.parse(body);
     if (responseJsonNode == null) {
-      return null;
+      throw new RuntimeException("Null response");
     }
 
     JsonNode dataNode = responseJsonNode.get("data");
@@ -104,7 +104,7 @@ public class LeguLeguService {
     Map<LocalDate, IndexPE> result = new LinkedHashMap<>();
 
     if (!dataNode.isArray()) {
-      return null;
+      throw new RuntimeException("Null dataNode");
     }
     for (JsonNode item : dataNode) {
       Long timestamp = JsonUtil.safeGetLong(item, "date");
@@ -174,7 +174,7 @@ public class LeguLeguService {
 
     Invocable invocable = (Invocable) engine;
     Object result =
-        invocable.invokeFunction("hex", LocalDate.now().format(DateTimeFormatter.ISO_DATE));
+        invocable.invokeFunction("hex", LocalDateUtil.getNow().format(DateTimeFormatter.ISO_DATE));
 
     return result.toString().toLowerCase(Locale.ROOT);
   }

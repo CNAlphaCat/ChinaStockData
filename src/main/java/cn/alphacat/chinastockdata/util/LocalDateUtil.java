@@ -13,6 +13,10 @@ public class LocalDateUtil {
   private static final DateTimeFormatter DATE_FORMATTER_yyyy_MM_dd_HH_mm =
       DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
+  public static LocalDate getNow() {
+    return LocalDate.now(ZoneId.of("Asia/Shanghai"));
+  }
+
   public static LocalDate autoParseDate(String date) {
     LocalDate result = parseDateOfPatternyyyy_MM_dd(date);
     if (result != null) {
