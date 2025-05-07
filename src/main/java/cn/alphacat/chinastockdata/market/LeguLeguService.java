@@ -112,6 +112,9 @@ public class LeguLeguService {
         continue;
       }
       LocalDate date = LocalDateUtil.parseTimestamp(timestamp);
+      if (date == null) {
+        continue;
+      }
 
       BigDecimal close = JsonUtil.safeGetBigDecimal(item, "close");
       BigDecimal lyrPe = JsonUtil.safeGetBigDecimal(item, "lyrPe");

@@ -3,7 +3,7 @@ package cn.alphacat.chinastockdata.stock;
 import cn.alphacat.chinastockdata.model.stock.StockMin;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
-public class EastMoneyStockService {
+@Component
+public class EastMoneyStockMinHandler {
   private static final String EASTMONEY_MARKET_MIN_URL =
       "https://push2.eastmoney.com/api/qt/stock/trends2/get";
 

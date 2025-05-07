@@ -3,7 +3,7 @@ package cn.alphacat.chinastockdata.stock;
 import cn.alphacat.chinastockdata.model.stock.StockMin;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
-public class BaiduStockService {
+@Component
+public class BaiduStockMinHandler {
   private static final String BAIDU_MARKET_MIN_URL =
       "https://finance.pae.baidu.com/selfselect/getstockquotation";
 
