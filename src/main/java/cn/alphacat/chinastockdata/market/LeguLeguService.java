@@ -10,19 +10,20 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.*;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.file.Files;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -30,23 +31,19 @@ import java.util.stream.Collectors;
 
 @Service
 public class LeguLeguService {
-  private final ResourceLoader resourceLoader;
-
   private static final String USER_AGENT =
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
           + "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36";
 
   private static final String API_URL = "https://legulegu.com/api/stockdata/index-basic-pe";
 
+  private static final String TOKEN_GENERATION_JS_FILE_PATH = "js/leguleguTokenGeneration.js";
+
   private static final HttpClient HTTP_CLIENT =
       HttpClient.newBuilder()
           .version(HttpClient.Version.HTTP_1_1)
           .cookieHandler(new java.net.CookieManager())
           .build();
-
-  public LeguLeguService(ResourceLoader resourceLoader) {
-    this.resourceLoader = resourceLoader;
-  }
 
   public Map<LocalDate, IndexPE> getStockIndexPE(LuguLuguIndexPEEnums index) {
     String token;
@@ -159,21 +156,20 @@ public class LeguLeguService {
     }
 
     String csrfToken = csrfTag.attr("content");
-
-    LeguLeguIndexPECsrfResponse leguLeguIndexPECsrfResponse =
-        LeguLeguIndexPECsrfResponse.builder()
-            .cookies(response.headers().map())
-            .csrfToken(csrfToken)
-            .build();
-    return leguLeguIndexPECsrfResponse;
+    return LeguLeguIndexPECsrfResponse.builder()
+        .cookies(response.headers().map())
+        .csrfToken(csrfToken)
+        .build();
   }
 
   private String getToken() throws Exception {
     ScriptEngineManager manager = new ScriptEngineManager();
     ScriptEngine engine = manager.getEngineByName("nashorn");
-    Resource resource = resourceLoader.getResource("classpath:js/leguleguTokenGeneration.js");
-    String jsCode = Files.readString(resource.getFile().toPath());
-    engine.eval(jsCode);
+    Resource resource = new ClassPathResource(TOKEN_GENERATION_JS_FILE_PATH);
+    try (InputStream is = resource.getInputStream()) {
+      String jsCode = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+      engine.eval(jsCode);
+    }
 
     Invocable invocable = (Invocable) engine;
     Object result =

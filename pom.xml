@@ -23,8 +23,8 @@
 
         <jackson.version>2.18.3</jackson.version>
         <lombok.version>1.18.36</lombok.version>
-        <nashorn.version>15.4</nashorn.version>
-        <jsoup.version>1.16.1</jsoup.version>
+        <nashorn.version>15.6</nashorn.version>
+        <jsoup.version>1.20.1</jsoup.version>
     </properties>
 
     <dependencies>
