@@ -4,8 +4,11 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class LocalDateUtil {
+  private static final DateTimeFormatter DATE_FORMATTER_yyyyMMdd =
+      DateTimeFormatter.ofPattern("yyyyMMdd");
   private static final DateTimeFormatter DATE_FORMATTER_yyyy_MM_dd =
       DateTimeFormatter.ofPattern("yyyy-MM-dd");
   private static final DateTimeFormatter DATE_FORMATTER_yyyy_MM_dd_HH_mm_ss =
@@ -61,5 +64,13 @@ public class LocalDateUtil {
     Instant instant = Instant.ofEpochMilli(timestamp);
     LocalDate date = instant.atZone(ZoneId.of("UTC")).toLocalDate();
     return date;
+  }
+
+  public static LocalDate parseDate(Date date) {
+    try {
+      return LocalDate.parse(DATE_FORMATTER_yyyyMMdd.format(date.toInstant()));
+    } catch (Exception e) {
+      return null;
+    }
   }
 }
