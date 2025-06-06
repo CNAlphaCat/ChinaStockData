@@ -1,5 +1,6 @@
 package cn.alphacat.chinastockdata.stock;
 
+import cn.alphacat.chinastockdata.enums.StockExchangeMarketEnums;
 import cn.alphacat.chinastockdata.model.stock.StockInfo;
 import cn.alphacat.chinastockdata.util.JsonUtil;
 import cn.alphacat.chinastockdata.util.RequestUtil;
@@ -103,7 +104,8 @@ public class BaiduStockInfoHandler {
         StockInfo stockInfo = new StockInfo();
         stockInfo.setStockCode(JsonUtil.safeGetText(node, "code"));
         stockInfo.setStockName(JsonUtil.safeGetText(node, "name"));
-        stockInfo.setExchangeMarket(JsonUtil.safeGetText(node, "market"));
+        String exchange = JsonUtil.safeGetText(node, "exchange");
+        stockInfo.setExchangeMarket(StockExchangeMarketEnums.getStockExchangeMarketEnums(exchange));
         stockInfoList.add(stockInfo);
       }
     }
