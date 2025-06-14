@@ -1,4 +1,4 @@
-package cn.alphacat.chinastockdata.market;
+package cn.alphacat.chinastockdata.market.handler;
 
 import cn.alphacat.chinastockdata.model.marketindex.IndexConstituent;
 import cn.alphacat.chinastockdata.util.LocalDateUtil;
@@ -42,7 +42,7 @@ public class MarketIndexConstituentHandler {
         }
 
         Date dateCellValue = row.getCell(CSI_300_EXCEL_DATE_INDEX).getDateCellValue();
-        LocalDate date = LocalDateUtil.parseDate(dateCellValue);
+        LocalDate date = LocalDateUtil.parseDateOfPatternyyyyMMdd(dateCellValue);
 
         String indexCode = row.getCell(CSI_300_EXCEL_INDEXCODE_INDEX).getStringCellValue();
         String indexName = row.getCell(CSI_300_EXCEL_INDEXNAME_INDEX).getStringCellValue();

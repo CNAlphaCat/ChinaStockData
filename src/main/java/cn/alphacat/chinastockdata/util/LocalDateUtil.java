@@ -33,6 +33,10 @@ public class LocalDateUtil {
     if (result != null) {
       return result;
     }
+    result = parseDateOfPatternyyyyMMdd(date);
+    if (result != null) {
+      return result;
+    }
     return null;
   }
 
@@ -66,7 +70,16 @@ public class LocalDateUtil {
     return date;
   }
 
-  public static LocalDate parseDate(Date date) {
+  public static LocalDate parseDateOfPatternyyyyMMdd(String date) {
+    try {
+      return LocalDate.parse(date, DATE_FORMATTER_yyyyMMdd);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+
+  public static LocalDate parseDateOfPatternyyyyMMdd(Date date) {
     try {
       return LocalDate.parse(DATE_FORMATTER_yyyyMMdd.format(date.toInstant()));
     } catch (Exception e) {

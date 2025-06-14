@@ -1,6 +1,7 @@
 package cn.alphacat.chinastockdata.market;
 
 import cn.alphacat.chinastockdata.enums.KLineTypeEnum;
+import cn.alphacat.chinastockdata.market.handler.MarketIndexConstituentHandler;
 import cn.alphacat.chinastockdata.model.marketindex.IndexConstituent;
 import cn.alphacat.chinastockdata.model.marketindex.MarketIndex;
 import org.springframework.stereotype.Service;

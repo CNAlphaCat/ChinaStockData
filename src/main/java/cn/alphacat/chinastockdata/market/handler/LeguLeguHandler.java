@@ -1,4 +1,4 @@
-package cn.alphacat.chinastockdata.market;
+package cn.alphacat.chinastockdata.market.handler;
 
 import cn.alphacat.chinastockdata.enums.LuguLuguIndexPEEnums;
 import cn.alphacat.chinastockdata.model.marketindex.IndexPE;
@@ -12,6 +12,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.script.Invocable;
@@ -29,8 +30,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Service
-public class LeguLeguService {
+@Component
+public class LeguLeguHandler {
   private static final String USER_AGENT =
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
           + "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36";
