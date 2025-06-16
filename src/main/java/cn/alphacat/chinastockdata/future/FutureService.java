@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -54,8 +55,43 @@ public class FutureService {
     return futureDetailHandler.getFutureDetails(secId, maxCount);
   }
 
+  public HashMap<LocalDate, List<CFFEXFutureHistory>> getStockFutureHistory(
+          Year year, Month month) {
+    List<CFFEXFutureHistoryPrefixEnums> prefixEnums =
+            List.of(
+                    CFFEXFutureHistoryPrefixEnums.IF,
+                    CFFEXFutureHistoryPrefixEnums.IM,
+                    CFFEXFutureHistoryPrefixEnums.IC);
+    return getFutureHistory(year, month, prefixEnums);
+  }
+
   public HashMap<LocalDate, List<CFFEXFutureHistory>> getFutureHistory(
       Year year, Month month, List<CFFEXFutureHistoryPrefixEnums> prefixEnums) {
     return cffexFutureHistoryHandler.getFutureHistory(year, month, prefixEnums);
+  }
+
+  public HashMap<LocalDate, List<CFFEXFutureHistory>> getStockFutureHistory(
+          int startYear, Month startMonth) {
+    LocalDate currentDate = LocalDate.of(startYear, startMonth, 1);
+    LocalDate endLocalDate = LocalDate.now().plusMonths(1);
+    Month endMonth = endLocalDate.getMonth();
+    LocalDate endDate = LocalDate.of(endLocalDate.getYear(), endMonth, 1);
+    HashMap<LocalDate, List<CFFEXFutureHistory>> result = new HashMap<>();
+    while (currentDate.isBefore(endDate)) {
+      Year currentYear = Year.of(currentDate.getYear());
+      Month currentMonth = Month.of(currentDate.getMonthValue());
+      HashMap<LocalDate, List<CFFEXFutureHistory>> futureHistory =
+              getStockFutureHistory(currentYear, currentMonth);
+      futureHistory.forEach(
+              (date, futures) -> {
+                if (result.containsKey(date)) {
+                  result.get(date).addAll(futures);
+                } else {
+                  result.put(date, new ArrayList<>(futures));
+                }
+              });
+      currentDate = currentDate.plusMonths(1);
+    }
+    return result;
   }
 }
