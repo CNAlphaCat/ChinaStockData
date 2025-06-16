@@ -1,4 +1,4 @@
-package cn.alphacat.chinastockdata.future;
+package cn.alphacat.chinastockdata.future.handler;
 
 import cn.alphacat.chinastockdata.enums.EastMoneyQTKlineTypeEnum;
 import cn.alphacat.chinastockdata.enums.EastMoneyQTKlineWeightingEnum;
@@ -21,7 +21,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class FutureHistoryHandler {
+public class EastMoneyFutureHistoryHandler {
   private static final String EASTMONEY_KLINE_FIELDS_URL =
       "https://push2his.eastmoney.com/api/qt/stock/kline/get";
   private static final String FIELDS1 = "f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13";

@@ -1,4 +1,4 @@
-package cn.alphacat.chinastockdata.future;
+package cn.alphacat.chinastockdata.future.handler;
 
 import cn.alphacat.chinastockdata.enums.EastMoneyQuoteFieldEnum;
 import cn.alphacat.chinastockdata.model.future.FutureMarketOverview;
