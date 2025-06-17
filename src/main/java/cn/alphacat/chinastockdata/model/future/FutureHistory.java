@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class FutureHistory {
+  private String code;
   private LocalDate date;
   private LocalDateTime dateTime;
   private BigDecimal open;
@@ -25,6 +26,7 @@ public class FutureHistory {
   private BigDecimal holdingVolume;
 
   public FutureHistory(CFFEXFutureHistory cffexFutureHistory){
+    this.code = cffexFutureHistory.getCode();
     this.date = cffexFutureHistory.getDate();
     this.close = cffexFutureHistory.getClose();
     this.open = cffexFutureHistory.getOpen();
