@@ -24,6 +24,7 @@ public class FutureHistory {
   private BigDecimal changeAmount;
   private BigDecimal turnoverRate;
   private BigDecimal holdingVolume;
+  private BigDecimal delta;
 
   public FutureHistory(CFFEXFutureHistory cffexFutureHistory){
     this.code = cffexFutureHistory.getCode();
@@ -35,5 +36,6 @@ public class FutureHistory {
     this.volume = cffexFutureHistory.getVolume();
     this.amount = cffexFutureHistory.getAmount();
     this.holdingVolume = cffexFutureHistory.getHoldingVolume();
+    this.delta = cffexFutureHistory.getDelta();
   }
 }
